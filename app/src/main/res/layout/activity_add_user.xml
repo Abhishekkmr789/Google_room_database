@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="gradlesetup.com.roomdatabasedemo.AddUserActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_custom_action_bar"/>
+
+    <EditText
+        android:id="@+id/et_user_id"
+        android:background="@drawable/edittext_background_drawable"
+        android:layout_margin="@dimen/dimen_10dp"
+        android:padding="@dimen/dimen_10dp"
+        android:hint="@string/text_enter_user_id"
+        android:inputType="number"
+        android:lines="1"
+        android:layout_below="@+id/toolbar"
+        android:maxLength="10"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:background="@drawable/edittext_background_drawable"
+        android:layout_margin="@dimen/dimen_10dp"
+        android:padding="@dimen/dimen_10dp"
+        android:hint="@string/text_enter_name"
+        android:inputType="text"
+        android:lines="1"
+        android:layout_below="@+id/et_user_id"
+        android:maxLength="50"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/et_city"
+        android:background="@drawable/edittext_background_drawable"
+        android:layout_margin="@dimen/dimen_10dp"
+        android:padding="@dimen/dimen_10dp"
+        android:hint="@string/text_enter_city"
+        android:inputType="text"
+        android:lines="1"
+        android:maxLength="100"
+        android:layout_below="@+id/et_name"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/et_phone"
+        android:background="@drawable/edittext_background_drawable"
+        android:layout_margin="@dimen/dimen_10dp"
+        android:padding="@dimen/dimen_10dp"
+        android:hint="@string/text_enter_phone"
+        android:inputType="phone"
+        android:lines="1"
+        android:layout_below="@+id/et_city"
+        android:maxLength="15"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/text_add"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/et_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ProgressBar
+        android:id="@+id/pb_progress"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

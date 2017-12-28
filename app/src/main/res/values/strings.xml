@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">RoomDatabaseDemo</string>
+    <string name="text_enter_user_id">Enter User Id</string>
+    <string name="text_enter_name">Enter Name</string>
+    <string name="text_enter_city">Enter City</string>
+    <string name="text_enter_phone">Enter Phone</string>
+    <string name="text_add">Add</string>
+    <string name="text_update">Update</string>
+    <string name="text_user_list">User List</string>
+    <string name="text_add_user">Add User</string>
+    <string name="text_update_user">Update User</string>
+    <string name="text_error_user_id">Please enter user id.</string>
+    <string name="text_error_name">Please enter name.</string>
+    <string name="text_error_city">Please enter city.</string>
+    <string name="text_error_phone">Please enter phone.</string>
+    <string name="text_error_user_exist">User is already registered.</string>
+</resources>
