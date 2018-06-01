@@ -3,6 +3,7 @@ package gradlesetup.com.roomdatabasedemo;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
 public class UserData implements Serializable {
 
     @PrimaryKey()
+    @NonNull
     @ColumnInfo(name = "user_id")
     private String userId;
     @ColumnInfo(name = "user_name")

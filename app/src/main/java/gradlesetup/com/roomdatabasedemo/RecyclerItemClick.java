@@ -5,5 +5,5 @@ package gradlesetup.com.roomdatabasedemo;
  */
 
 public interface RecyclerItemClick {
-    public void onItemClick(int position);
+    public void onItemClick(UserData userData);
 }

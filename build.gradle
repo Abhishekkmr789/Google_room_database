@@ -24,6 +24,6 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-ext{
+/*ext{
     archRoomVersion = "1.0.0-alpha1"
-}
+}*/

@@ -113,10 +113,10 @@ public class AddUserActivity extends AppCompatActivity {
         userData.setUserPhone(etPhone.getText().toString());
         pbProgress.setVisibility(View.VISIBLE);
         if (isUpdate) {
-            new DatabaseAsyncTask(this,userData,2).execute();
+            new DatabaseAsyncTask(this, UserDatabase.getDatabaseInstance(this),userData,2).execute();
           //  UserDatabase.getDatabaseInstance(this).userDao().updateUserDataInDataBase(userData);
         }else {
-            new DatabaseAsyncTask(this,userData,1).execute();
+            new DatabaseAsyncTask(this, UserDatabase.getDatabaseInstance(this),userData,1).execute();
           //  UserDatabase.getDatabaseInstance(this).userDao().addUserToDatabase(userData);
         }
     }

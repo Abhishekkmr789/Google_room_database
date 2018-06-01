@@ -1,6 +1,11 @@
 package gradlesetup.com.roomdatabasedemo;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecyclerItemClick {
 
@@ -21,8 +27,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
     private TextView tvNoData, tvTitle;
     private FloatingActionButton fabAddUser;
     private UserListAdapter mAdapter;
-    private ArrayList<UserData> mUserList;
     private ProgressBar pbProgress;
+    private UserViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
         initializeViews();
         setListeners();
         setData();
+        pbProgress.setVisibility(View.VISIBLE);
         setAdapterToRecyclerView();
 
     }
@@ -40,8 +47,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
     @Override
     protected void onResume() {
         super.onResume();
-        pbProgress.setVisibility(View.VISIBLE);
-        new DatabaseAsyncTask(this, null, 3).execute();
+      //  new DatabaseAsyncTask(this, null, 3).execute();
     }
 
 
@@ -53,8 +59,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
 
 
     private void initializeVariables() {
-        mUserList = new ArrayList<>();
-        mAdapter = new UserListAdapter(this, mUserList, this);
+        mAdapter = new UserListAdapter(this, new ArrayList<UserData>(), this);
     }
 
     /*
@@ -101,6 +106,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
     private void setAdapterToRecyclerView() {
         rvUser.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvUser.setAdapter(mAdapter);
+        viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        if (viewModel.getAllUserData() != null) {
+            viewModel.getAllUserData().observe(this, new Observer<List<UserData>>() {
+                @Override
+                public void onChanged(@Nullable List<UserData> userData) {
+                    pbProgress.setVisibility(View.GONE);
+                    mAdapter.notifyData(userData);
+                    if (userData.size() > 0) {
+                        tvNoData.setVisibility(View.GONE);
+                        rvUser.scrollToPosition(userData.size() - 1);
+                    } else {
+                        tvNoData.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
 
     }
 
@@ -111,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
     * */
 
 
-    public void getDataFromDatabase(ArrayList<UserData> userlist, Boolean aBoolean) {
+   /* public void getDataFromDatabase(ArrayList<UserData> userlist, Boolean aBoolean) {
         pbProgress.setVisibility(View.GONE);
         if (userlist != null && aBoolean) {
             mUserList.clear();
@@ -119,35 +140,35 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
             if (mUserList != null && mUserList.size() > 0) {
                 tvNoData.setVisibility(View.GONE);
                 mAdapter.notifyDataSetChanged();
-                rvUser.scrollToPosition(mUserList.size()-1);
+                rvUser.scrollToPosition(mUserList.size() - 1);
             } else {
                 tvNoData.setVisibility(View.VISIBLE);
             }
         }
     }
-
+*/
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(UserData userData) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.layout_custom_alert, null);
         dialogBuilder.setView(view);
         AlertDialog dialog = dialogBuilder.create();
         view.findViewById(R.id.tv_update).setOnClickListener(view1 -> {
             dialog.dismiss();
-            startActivity(new Intent(MainActivity.this, AddUserActivity.class).putExtra("user_info", mUserList.get(position)));
+            startActivity(new Intent(MainActivity.this, AddUserActivity.class).putExtra("user_info", userData));
         });
         view.findViewById(R.id.tv_delete).setOnClickListener(view1 -> {
             dialog.dismiss();
             pbProgress.setVisibility(View.VISIBLE);
-            new DatabaseAsyncTask(this, mUserList.get(position), 4).execute();
-            mUserList.remove(position);
-            if (mUserList.size()>0) {
+            viewModel.deleteUser(userData);
+           /* mUserList.remove(position);
+            if (mUserList.size() > 0) {
                 mAdapter.notifyDataSetChanged();
-                rvUser.scrollToPosition(mUserList.size()-1);
-            }else {
+                rvUser.scrollToPosition(mUserList.size() - 1);
+            } else {
                 tvNoData.setVisibility(View.VISIBLE);
-            }
+            }*/
             //     UserDatabase.getDatabaseInstance(MainActivity.this).userDao().deleteUserFromDatabase(mUserList.get(position));
         });
         view.findViewById(R.id.tv_cancel).setOnClickListener(view1 -> dialog.dismiss());

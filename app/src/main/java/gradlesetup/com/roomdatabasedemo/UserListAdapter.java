@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by appinventiv on 28/12/17.
@@ -16,10 +17,10 @@ import java.util.ArrayList;
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<UserData> userList;
+    private List<UserData> userList;
     private RecyclerItemClick recyclerItemClick;
 
-    public UserListAdapter(Context context, ArrayList<UserData> userList, RecyclerItemClick recyclerItemClick) {
+    public UserListAdapter(Context context, List<UserData> userList, RecyclerItemClick recyclerItemClick) {
         this.context = context;
         this.userList = userList;
         this.recyclerItemClick = recyclerItemClick;
@@ -28,7 +29,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.row_users, parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_users, parent, false);
         return new ViewHolder(view);
     }
 
@@ -46,9 +47,14 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         return userList.size();
     }
 
+    public void notifyData(List<UserData> userData) {
+        userList = userData;
+        notifyDataSetChanged();
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvuserId,tvUserName, tvUserCity, tvUserPhone;
+        private TextView tvuserId, tvUserName, tvUserCity, tvUserPhone;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -57,7 +63,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             tvUserCity = itemView.findViewById(R.id.tv_city);
             tvUserPhone = itemView.findViewById(R.id.tv_phone);
             itemView.setOnLongClickListener(view -> {
-                recyclerItemClick.onItemClick(getAdapterPosition());
+                recyclerItemClick.onItemClick(userList.get(getAdapterPosition()));
                 return true;
             });
         }

@@ -1,5 +1,6 @@
 package gradlesetup.com.roomdatabasedemo;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -24,7 +25,7 @@ public interface UserDAO {
     void deleteUserFromDatabase(UserData userData);
 
     @Query("Select * from user_table")
-    List<UserData> getAllUserFromDatabase();
+    LiveData<List<UserData>> getAllUserFromDatabase();
 
     @Query("Select * from user_table where user_id = :userId")
     UserData getUserFromDatabase(String userId);
